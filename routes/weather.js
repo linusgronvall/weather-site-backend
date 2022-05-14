@@ -24,10 +24,6 @@ router.get('/city', cache('2 minutes'), async (req, res) => {
     );
     const data = apiRes.body;
 
-    // Log request to public API
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(`REQUEST: ${API_BASE_URL}?${params}`);
-    }
     res.status(200).json(data);
   } catch (e) {
     res.status(500).json(e);
@@ -48,10 +44,6 @@ router.get('/coords', cache('2 minutes'), async (req, res) => {
     );
     const data = apiRes.body;
 
-    // Log request to public API
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(`REQUEST: ${API_BASE_URL}?${params}`);
-    }
     res.status(200).json(data);
   } catch (e) {
     res.status(500).json(e);
