@@ -18,7 +18,10 @@ router.get('/city', cache('2 minutes'), async (req, res) => {
       ...url.parse(req.url, true).query,
       [API_KEY_NAME]: API_KEY_VALUE,
     });
-    const apiRes = await needle('get', `${API_BASE_URL}?${params}`);
+    const apiRes = await needle(
+      'get',
+      `${API_BASE_URL}?${params}&units=metric`
+    );
     const data = apiRes.body;
 
     // Log request to public API
@@ -39,7 +42,10 @@ router.get('/coords', cache('2 minutes'), async (req, res) => {
     });
     console.log(params);
 
-    const apiRes = await needle('get', `${API_BASE_URL}?${params}`);
+    const apiRes = await needle(
+      'get',
+      `${API_BASE_URL}?${params}&units=metric`
+    );
     const data = apiRes.body;
 
     // Log request to public API
