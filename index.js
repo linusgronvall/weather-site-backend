@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 
 // CORS middleware
+app.use(express.json()); // New
 app.use(cors());
 
 // Rate limiting
@@ -17,6 +18,7 @@ const limiter = rateLimit({
 app.use(limiter);
 app.set('trust proxy', 1);
 
-app.use('/api', require('./routes/weather'));
+app.use('/api', require('./routes/current_weather'));
+app.use('/api', require('./routes/forecast_weather'));
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

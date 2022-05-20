@@ -5,22 +5,24 @@ const needle = require('needle');
 const apicache = require('apicache');
 
 // Environment variables
-const API_BASE_URL = process.env.API_BASE_URL;
-const API_KEY_NAME = process.env.API_KEY_NAME;
-const API_KEY_VALUE = process.env.API_KEY_VALUE;
+const WEATHER_API_BASE_URL = process.env.WEATHER_API_BASE_URL;
+const WEATHER_API_KEY_NAME = process.env.WEATHER_API_KEY_NAME;
+const WEATHER_API_KEY_VALUE = process.env.WEATHER_API_KEY_VALUE;
 
 // Init cache
 let cache = apicache.middleware;
 
-router.get('/city', cache('2 minutes'), async (req, res) => {
+// GET
+// Get current weather by city name
+router.get('/current/city', cache('2 minutes'), async (req, res) => {
   try {
     const params = new URLSearchParams({
       ...url.parse(req.url, true).query,
-      [API_KEY_NAME]: API_KEY_VALUE,
+      [WEATHER_API_KEY_NAME]: WEATHER_API_KEY_VALUE,
     });
     const apiRes = await needle(
       'get',
-      `${API_BASE_URL}?${params}&units=metric`
+      `${WEATHER_API_BASE_URL}?${params}&units=metric`
     );
     const data = apiRes.body;
 
@@ -30,17 +32,19 @@ router.get('/city', cache('2 minutes'), async (req, res) => {
   }
 });
 
-router.get('/coords', cache('2 minutes'), async (req, res) => {
+// GET
+// Get current weather by coordinates
+router.get('/current/coords', cache('2 minutes'), async (req, res) => {
   try {
     const params = new URLSearchParams({
       ...url.parse(req.url, true).query,
-      [API_KEY_NAME]: API_KEY_VALUE,
+      [WEATHER_API_KEY_NAME]: WEATHER_API_KEY_VALUE,
     });
     console.log(params);
 
     const apiRes = await needle(
       'get',
-      `${API_BASE_URL}?${params}&units=metric`
+      `${WEATHER_API_BASE_URL}?${params}&units=metric`
     );
     const data = apiRes.body;
 
@@ -49,5 +53,3 @@ router.get('/coords', cache('2 minutes'), async (req, res) => {
     res.status(500).json(e);
   }
 });
-
-module.exports = router;
